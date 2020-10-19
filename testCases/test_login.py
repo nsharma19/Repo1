@@ -3,15 +3,17 @@ from utilities.readProperties import Readconfig
 from pageObjects.PageObjects import LoginPage
 import pytest
 from utilities.customLogger import LogGen
+from testCases.confitest import setup
 
 class Test_login001:
+
     logger = LogGen.log()
     base_url = Readconfig.getAppUrl()
     user_name = Readconfig.getAppUsername()
-    user_password = Readconfig.getAppUsername()
-    def test_loginPageTitle(self):
+    user_password = Readconfig.getAppPassword()
+    def test_loginPageTitle(self,setup):
         self.logger.info("******Launching Application********")
-        self.driver = webdriver.Chrome(executable_path="C:/Users/Owner/Desktop/chromedriver/chromedriver.exe")
+        self.driver = setup     #webdriver.Chrome(   #executable_path="C:/Users/Owner/Desktop/chromedriver/chromedriver.exe")
         self.driver.get(self.base_url)
         act_title = self.driver.title
         if act_title == "Your store. Login":
@@ -22,9 +24,9 @@ class Test_login001:
             self.driver.save_screenshot(".\\Screen_Shots\\"+"loginpage.png")
             self.logger.info("******Title failed******")
             assert False
-    def test_homePage(self):
+    def test_homePage(self,setup):
         self.logger.info("******Home page Title******")
-        self.driver = webdriver.Chrome(executable_path="C:/Users/Owner/Desktop/chromedriver/chromedriver.exe")
+        self.driver = setup #webdriver.Chrome(executable_path="C:/Users/Owner/Desktop/chromedriver/chromedriver.exe")
         self.driver.get(self.base_url)
         self.lp = LoginPage(self.driver)
         self.lp.enter_username(self.user_name)
@@ -38,7 +40,7 @@ class Test_login001:
         else:
             self.driver.save_screenshot(".\\Screen_Shots\\" + "Homepage.png")
             self.driver.close()
-            self.logger.info("******Homa page Title failed******")
+            self.logger.info("******Home page Title failed******")
             assert False
 
 
